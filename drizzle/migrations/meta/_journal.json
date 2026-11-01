@@ -8,6 +8,13 @@
       "when": 1793509659058,
       "tag": "0000_create_inventory_schema",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793512157552,
+      "tag": "0001_pos_sales_purchases_partners_settings",
+      "breakpoints": true
     }
   ]
 }
