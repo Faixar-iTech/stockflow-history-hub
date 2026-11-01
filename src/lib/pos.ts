@@ -1,7 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 import { getCustomers, getSuppliers } from "./partners.functions";
-import { getPurchase, getPurchases, getSales, getSale } from "./sales.functions";
-import { getPurchase as getStockPurchase } from "./purchases.functions";
+import { getSale, getSales } from "./sales.functions";
+import { getPurchase, getPurchases } from "./purchases.functions";
 import { getDashboard } from "./reports.functions";
 import { getSettings } from "./settings.functions";
 
@@ -21,10 +21,7 @@ export const purchasesQuery = () =>
   queryOptions({ queryKey: ["purchases"], queryFn: () => getPurchases() });
 
 export const purchaseQuery = (id: number) =>
-  queryOptions({
-    queryKey: ["purchases", id],
-    queryFn: () => getStockPurchase({ data: { id } }),
-  });
+  queryOptions({ queryKey: ["purchases", id], queryFn: () => getPurchase({ data: { id } }) });
 
 export const dashboardQuery = () =>
   queryOptions({ queryKey: ["dashboard"], queryFn: () => getDashboard() });
