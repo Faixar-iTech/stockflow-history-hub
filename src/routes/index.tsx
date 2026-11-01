@@ -523,7 +523,7 @@ function HistoryModal({ product, onClose }: { product: ProductDTO; onClose: () =
                 className={
                   "w-14 rounded-md px-2 py-0.5 text-center font-mono text-xs font-semibold " +
                   (m.change > 0
-                    ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300"
+                    ? "bg-success/20 text-success-foreground"
                     : "bg-destructive/10 text-destructive")
                 }
               >
