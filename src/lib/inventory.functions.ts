@@ -136,6 +136,7 @@ export const createProduct = createServerFn({ method: "POST" })
       .select("*")
       .single();
     fail(error);
+    if (!rows) throw new Error("Product could not be created.");
     if (data.quantity > 0) {
       const { error: movementError } = await db
         .from("stock_movements")
@@ -181,6 +182,7 @@ export const updateProduct = createServerFn({ method: "POST" })
       .select("*")
       .single();
     fail(error);
+    if (!rows) throw new Error("Product could not be updated.");
     return toProduct(rows);
   });
 
@@ -217,6 +219,7 @@ export const adjustStock = createServerFn({ method: "POST" })
       .select("*")
       .single();
     fail(updateError);
+    if (!updated) throw new Error("Stock could not be adjusted.");
     const { error: movementError } = await db.from("stock_movements").insert({
       product_id: data.id,
       change: data.change,
