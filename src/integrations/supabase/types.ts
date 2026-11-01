@@ -14,7 +14,74 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      products: {
+        Row: {
+          category: string
+          created_at: string
+          id: number
+          name: string
+          quantity: number
+          reorder_level: number
+          sku: string
+          unit_price: number
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          id?: never
+          name: string
+          quantity?: number
+          reorder_level?: number
+          sku: string
+          unit_price?: number
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: never
+          name?: string
+          quantity?: number
+          reorder_level?: number
+          sku?: string
+          unit_price?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      stock_movements: {
+        Row: {
+          change: number
+          created_at: string
+          id: number
+          product_id: number
+          reason: string
+        }
+        Insert: {
+          change: number
+          created_at?: string
+          id?: never
+          product_id: number
+          reason?: string
+        }
+        Update: {
+          change?: number
+          created_at?: string
+          id?: never
+          product_id?: number
+          reason?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stock_movements_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
