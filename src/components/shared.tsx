@@ -1,4 +1,4 @@
-import { useEffect, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { X } from "lucide-react";
 
 export const inputClass =
@@ -108,66 +108,6 @@ export function Modal({
   );
 }
 
-export function ConfirmDelete({
-  title,
-  message,
-  busy,
-  onClose,
-  onConfirm,
-}: {
-  title: string;
-  message: ReactNode;
-  busy: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
-}) {
-  return (
-    <Modal title={title} onClose={onClose}>
-      <div className="text-sm text-muted-foreground">{message}</div>
-      <div className="mt-6 flex justify-end gap-2">
-        <button
-          type="button"
-          onClick={onClose}
-          className="rounded-lg border border-border px-4 py-2 text-sm font-medium transition hover:bg-accent"
-        >
-          Cancel
-        </button>
-        <button
-          type="button"
-          disabled={busy}
-          onClick={onConfirm}
-          className="rounded-lg bg-destructive px-4 py-2 text-sm font-medium text-destructive-foreground transition hover:bg-destructive/90 disabled:opacity-50"
-        >
-          Delete
-        </button>
-      </div>
-    </Modal>
-  );
-}
-
-export function PartnerForm({
-  title,
-  initial,
-  busy,
-  onCancel,
-  onSave,
-}: {
-  title: string;
-  initial: { name: string; phone: string; address: string };
-  busy: boolean;
-  onCancel: () => void;
-  onSave: (values: { name: string; phone: string; address: string }) => void;
-}) {
-  const [form, setForm] = [initial, undefined] as const; // placeholder, replaced below
-  void form;
-  void setForm;
-  void busy;
-  void onCancel;
-  void onSave;
-  void title;
-  return null as unknown as ReactNode;
-}
-
 export function FormButtons({
   busy,
   onCancel,
@@ -197,7 +137,7 @@ export function FormButtons({
   );
 }
 
-export function PartnerFormInner({
+export function PartnerForm({
   title,
   initial,
   busy,
@@ -210,16 +150,32 @@ export function PartnerFormInner({
   onCancel: () => void;
   onSave: (values: { name: string; phone: string; address: string }) => void;
 }) {
-  void title;
+  const [form, setForm] = useState(initial);
+  const set =
+    (key: keyof typeof form) =>
+    (e: { target: { value: string } }) =>
+      setForm({ ...form, [key]: e.target.value });
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    onSave(initial);
+    onSave(form);
   };
   return (
-    <form onSubmit={submit} className="space-y-4">
-      <div className="space-y-4" />
-      {busy && null}
-      <FormButtons busy={busy} onCancel={onCancel} label="Save" />
-    </form>
+    <Modal title={title} onClose={onCancel}>
+      <form onSubmit={submit} className="space-y-4">
+        <label className="block">
+          <span className={labelClass}>Name</span>
+          <input required maxLength={120} value={form.name} onChange={set("name")} className={inputClass} />
+        </label>
+        <label className="block">
+          <span className={labelClass}>Phone</span>
+          <input maxLength={40} value={form.phone} onChange={set("phone")} className={inputClass} />
+        </label>
+        <label className="block">
+          <span className={labelClass}>Address</span>
+          <input maxLength={200} value={form.address} onChange={set("address")} className={inputClass} />
+        </label>
+        <FormButtons busy={busy} onCancel={onCancel} label="Save" />
+      </form>
+    </Modal>
   );
 }
