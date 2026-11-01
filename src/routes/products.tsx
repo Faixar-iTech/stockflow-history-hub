@@ -31,7 +31,7 @@ import {
   type ProductDTO,
 } from "@/lib/inventory.functions";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/products")({
   loader: ({ context }) => context.queryClient.ensureQueryData(inventoryQuery("")),
   head: () => ({
     meta: [
